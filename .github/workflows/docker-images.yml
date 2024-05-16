@@ -8,7 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  RELEASE_REF: refs/heads/main
+  RELEASE_REF: refs/heads/test/metadata_update
 jobs:
   build-docker-images:
     runs-on: ubuntu-latest
