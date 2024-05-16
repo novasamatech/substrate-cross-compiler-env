@@ -1,1 +1,1 @@
-polkadot-v1.11.0
+bkchr-metadata-hash
