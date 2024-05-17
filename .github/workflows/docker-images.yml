@@ -116,7 +116,7 @@ jobs:
         run: |
           cd polkadot-sdk/polkadot
           cargo build --release --target x86_64-unknown-linux-gnu
-          cargo build -p westend-runtime --release --features metadata-hash
+          cargo build -p westend-runtime --release --features metadata-hash --target x86_64-unknown-linux-gnu
           ls /opt/cargo_target/x86_64-unknown-linux-gnu/release
       - name: "Create release"
         if: ${{ github.ref == env.RELEASE_REF }}
