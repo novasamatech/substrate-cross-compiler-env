@@ -140,16 +140,22 @@ jobs:
         if: ${{ github.ref == env.RELEASE_REF }}
         run: |
           BINARIES_DIR=${CARGO_TARGET_DIR}/x86_64-unknown-linux-gnu/release
-          mv ${BINARIES_DIR}/polkadot ${BINARIES_DIR}/${BINARY_FILE_NAME}
-          mv ${BINARIES_DIR}/polkadot-execute-worker ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME}
-          mv ${BINARIES_DIR}/polkadot-prepare-worker ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME}
-          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.wasm
-          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.compact.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.wasm
-          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.compact.compressed.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm
+          mv ${BINARIES_DIR}/polkadot ${BINARIES_DIR}/${BINARY_FILE_NAME} || true
+          mv ${BINARIES_DIR}/polkadot-execute-worker ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME} || true
+          mv ${BINARIES_DIR}/polkadot-prepare-worker ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME} || true
+          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.wasm || true
+          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.compact.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.wasm || true
+          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.compact.compressed.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm || true
           ls ${BINARIES_DIR}
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME}
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME}
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.wasm
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.wasm
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME} || true
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME} || true
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME} || true
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.wasm || true
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.wasm || true
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm || true
+      
+      - name: Upload binaries as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries
+          path: ${BINARIES_DIR}
