@@ -115,7 +115,8 @@ jobs:
       - name: Build binaries
         run: |
           cd polkadot-sdk/polkadot
-          cargo build -p westend-runtime --release --target x86_64-unknown-linux-gnu --features metadata-hash
+          cargo build --release --target x86_64-unknown-linux-gnu
+          cargo build -p westend-runtime --release --features metadata-hash
           ls /opt/cargo_target/x86_64-unknown-linux-gnu/release
       - name: "Create release"
         if: ${{ github.ref == env.RELEASE_REF }}
@@ -142,7 +143,11 @@ jobs:
           mv ${BINARIES_DIR}/polkadot ${BINARIES_DIR}/${BINARY_FILE_NAME}
           mv ${BINARIES_DIR}/polkadot-execute-worker ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME}
           mv ${BINARIES_DIR}/polkadot-prepare-worker ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME}
+          mv ${BINARIES_DIR}/libwestend_runtime.d ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.d
+          mv ${BINARIES_DIR}/libwestend_runtime.rlid ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.rlid
           ls ${BINARIES_DIR}
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME}
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME}
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.d
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.rlid
