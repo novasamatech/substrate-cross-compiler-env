@@ -155,7 +155,8 @@ jobs:
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm || true
       
       - name: Upload binaries as artifact
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: binaries
-          path: ${BINARIES_DIR}
+          path: /opt/cargo_target
