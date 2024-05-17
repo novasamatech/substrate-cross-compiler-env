@@ -143,11 +143,13 @@ jobs:
           mv ${BINARIES_DIR}/polkadot ${BINARIES_DIR}/${BINARY_FILE_NAME}
           mv ${BINARIES_DIR}/polkadot-execute-worker ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME}
           mv ${BINARIES_DIR}/polkadot-prepare-worker ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME}
-          mv ${BINARIES_DIR}/libwestend_runtime.d ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.d
-          mv ${BINARIES_DIR}/libwestend_runtime.rlid ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.rlid
+          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.wasm
+          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.compact.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.wasm
+          mv ${BINARIES_DIR}/wbuild/westend-runtime/westend_runtime.compact.compressed.wasm ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm
           ls ${BINARIES_DIR}
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${EXECUTE_WORKER_BINARY_FILE_NAME}
           gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${PREPARE_WORKER_BINARY_FILE_NAME}
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.d
-          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_libwestend_runtime.rlid
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.wasm
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.wasm
+          gh release upload ${{ env.NODE_GIT_REF }} ${BINARIES_DIR}/${BINARY_FILE_NAME}_westend_runtime.compact.compressed.wasm
