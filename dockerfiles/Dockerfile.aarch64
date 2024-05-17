@@ -41,7 +41,8 @@ run chown -R rust:rust ${RUSTUP_HOME} ${CARGO_HOME} ${CARGO_TARGET_DIR}
 USER rust
 # Install rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path --default-toolchain ${RUST_STABLE_VERSION} && \
-    rustup target add aarch64-unknown-linux-gnu --toolchain ${RUST_STABLE_VERSION}
+    rustup target add aarch64-unknown-linux-gnu --toolchain ${RUST_STABLE_VERSION} && \
+    rustup target add wasm32-unknown-unknown --toolchain ${RUST_STABLE_VERSION}
 WORKDIR /home/rust
 
 ENTRYPOINT ["/bin/bash"]
