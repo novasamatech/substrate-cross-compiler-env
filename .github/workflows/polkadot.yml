@@ -86,6 +86,7 @@ jobs:
           build-args: |
             IMAGE_VERSION=image-to-test:latest
             GIT_REF=${{ env.NODE_GIT_REF }}
+            POLKADOT_REPOSITORY=${{ env.POLKADOT_REPOSITORY }}
           tags: test-build-image
       - name: Push Docker image
         if: ${{ github.ref == env.RELEASE_REF }}
