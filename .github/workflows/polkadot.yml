@@ -44,6 +44,7 @@ jobs:
           echo "FULL_IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:debian-${{ matrix.debian-versions }}-rust-${{ matrix.rust-versions }}-clang-${{ matrix.clang-versions }}" >> "$GITHUB_ENV"
           echo "image-name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> "$GITHUB_OUTPUT"
           echo "NODE_GIT_REF=$(cat release-version.txt | tr -d '\n')" >> "$GITHUB_ENV"
+          echo "POLKADOT_REPOSITORY=$(cat polkadot-repository.txt | tr -d '\n')" >> $GITHUB_ENV
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -71,6 +72,7 @@ jobs:
             DEBIAN_VERSION=${{ matrix.debian-versions }}
             RUST_STABLE_VERSION=${{ matrix.rust-versions }}
             CLANG_VERSION=${{ matrix.clang-versions }}
+            POLKADOT_REPOSITORY=${{ env.POLKADOT_REPOSITORY }}
           tags: ${{ env.FULL_IMAGE_NAME }},image-to-test:latest
       - name: Switch to default Docker builder
         run: docker buildx use default
