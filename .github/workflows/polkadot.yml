@@ -8,12 +8,14 @@ on:
       - dockerfiles/Dockerfile.test
       - dockerfiles/Dockerfile.amd64
       - release-version.txt
+      - polkadot-repository.txt
   pull_request:
     paths:
       - .github/workflows/polkadot.yml
       - dockerfiles/Dockerfile.test
       - dockerfiles/Dockerfile.amd64
       - release-version.txt
+      - polkadot-repository.txt
 
 env:
   REGISTRY: ghcr.io
@@ -42,6 +44,7 @@ jobs:
           echo "FULL_IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:debian-${{ matrix.debian-versions }}-rust-${{ matrix.rust-versions }}-clang-${{ matrix.clang-versions }}" >> "$GITHUB_ENV"
           echo "image-name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> "$GITHUB_OUTPUT"
           echo "NODE_GIT_REF=$(cat release-version.txt | tr -d '\n')" >> "$GITHUB_ENV"
+          echo "POLKADOT_REPOSITORY=$(cat polkadot-repository.txt | tr -d '\n')" >> $GITHUB_ENV
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -69,6 +72,7 @@ jobs:
             DEBIAN_VERSION=${{ matrix.debian-versions }}
             RUST_STABLE_VERSION=${{ matrix.rust-versions }}
             CLANG_VERSION=${{ matrix.clang-versions }}
+            POLKADOT_REPOSITORY=${{ env.POLKADOT_REPOSITORY }}
           tags: ${{ env.FULL_IMAGE_NAME }},image-to-test:latest
       - name: Switch to default Docker builder
         run: docker buildx use default
@@ -91,6 +95,7 @@ jobs:
     needs: [build-docker-images]
     permissions:
       contents: write
+      packages: write
     container:
       image: ${{ needs.build-docker-images.outputs.image-name }}:debian-${{ matrix.debian-versions }}-rust-${{ matrix.rust-versions }}-clang-${{ matrix.clang-versions }}
       env:
@@ -111,6 +116,7 @@ jobs:
         run: |
           NODE_GIT_REF=$(cat release-version.txt | tr -d '\n')
           echo "NODE_GIT_REF=${NODE_GIT_REF}" >> $GITHUB_ENV
+          echo "POLKADOT_REPOSITORY=$(cat polkadot-repository.txt | tr -d '\n')" >> $GITHUB_ENV
           ENV_VERSION="debian-${{ matrix.debian-versions }}-rust-${{ matrix.rust-versions }}-clang-${{ matrix.clang-versions }}-${{ matrix.rustc-targets }}"
           echo "BINARY_FILE_NAME=${NODE_GIT_REF}-${ENV_VERSION}" >> $GITHUB_ENV
           echo "EXECUTE_WORKER_BINARY_FILE_NAME=${NODE_GIT_REF}-execute-worker-${ENV_VERSION}" >> $GITHUB_ENV
@@ -120,7 +126,7 @@ jobs:
       - name: Checkout polkadot-sdk repository
         uses: actions/checkout@v4
         with:
-          repository: paritytech/polkadot-sdk
+          repository: ${{ env.POLKADOT_REPOSITORY }}
           path: polkadot-sdk
           ref: ${{ env.NODE_GIT_REF }}
       - name: Build binaries

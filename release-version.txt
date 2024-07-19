@@ -1,1 +1,1 @@
-polkadot-v1.14.0
+polkadot/test-release-v1.14.0
