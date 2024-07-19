@@ -72,7 +72,6 @@ jobs:
             DEBIAN_VERSION=${{ matrix.debian-versions }}
             RUST_STABLE_VERSION=${{ matrix.rust-versions }}
             CLANG_VERSION=${{ matrix.clang-versions }}
-            POLKADOT_REPOSITORY=${{ env.POLKADOT_REPOSITORY }}
           tags: ${{ env.FULL_IMAGE_NAME }},image-to-test:latest
       - name: Switch to default Docker builder
         run: docker buildx use default
@@ -86,6 +85,7 @@ jobs:
           build-args: |
             IMAGE_VERSION=image-to-test:latest
             GIT_REF=${{ env.NODE_GIT_REF }}
+            POLKADOT_REPOSITORY=${{ env.POLKADOT_REPOSITORY }}
           tags: test-build-image
       - name: Push Docker image
         if: ${{ github.ref == env.RELEASE_REF }}
