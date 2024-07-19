@@ -8,12 +8,14 @@ on:
       - dockerfiles/Dockerfile.test
       - dockerfiles/Dockerfile.amd64
       - release-version.txt
+      - polkadot-repository.txt
   pull_request:
     paths:
       - .github/workflows/polkadot.yml
       - dockerfiles/Dockerfile.test
       - dockerfiles/Dockerfile.amd64
       - release-version.txt
+      - polkadot-repository.txt
 
 env:
   REGISTRY: ghcr.io
