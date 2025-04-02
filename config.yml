@@ -1,5 +1,5 @@
 polkadot:
-  code_git_repo: paritytech/polkadot-sdk
+  code_git_repo: novasamatech/polkadot-sdk
   code_git_ref: polkadot-stable2412-4
 avail:
   code_git_repo: availproject/avail
