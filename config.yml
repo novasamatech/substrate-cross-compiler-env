@@ -2,11 +2,11 @@
   code_git_ref: polkadot-stable2512-1
   debian-versions:
     - bookworm
+    - trixie
   rust-versions:
     - "1.88.0"
   clang-versions:
     - 20
-    - 21
   rustc-targets:
     - x86-64-v3
   components:
