@@ -14,3 +14,18 @@
     - substrate-node
     - polkadot-parachain
     - polkadot-omni-node
+- code_git_repo: paritytech/polkadot-sdk
+  code_git_ref: master
+  debian-versions:
+    - trixie
+  rust-versions:
+    - "1.88.0"
+  clang-versions:
+    - 20
+  rustc-targets:
+    - x86-64-v3
+  components:
+    - polkadot
+    - substrate-node
+    - polkadot-parachain
+    - polkadot-omni-node
