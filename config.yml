@@ -7,7 +7,7 @@ last-release:
   rust-versions:
     - "1.88.0"
   clang-versions:
-    - 20
+    - 21
   rustc-targets:
     - x86-64-v3
   components:
@@ -24,7 +24,7 @@ stable2512:
   rust-versions:
     - "1.88.0"
   clang-versions:
-    - 20
+    - 21
   rustc-targets:
     - x86-64-v3
   components:
@@ -40,7 +40,7 @@ master:
   rust-versions:
     - "1.88.0"
   clang-versions:
-    - 20
+    - 21
   rustc-targets:
     - x86-64-v3
   components:
