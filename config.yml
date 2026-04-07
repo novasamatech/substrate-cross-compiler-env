@@ -5,7 +5,7 @@ last-release:
     - bookworm
     - trixie
   rust-versions:
-    - "1.88.0"
+    - "1.93.0"
   clang-versions:
     - 21
   rustc-targets:
@@ -38,7 +38,7 @@ master:
   debian-versions:
     - trixie
   rust-versions:
-    - "1.88.0"
+    - "1.93.0"
   clang-versions:
     - 21
   rustc-targets:
