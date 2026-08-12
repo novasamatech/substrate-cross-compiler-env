@@ -1,11 +1,28 @@
 last-release:
   code_git_repo: paritytech/polkadot-sdk
-  code_git_ref: polkadot-stable2603-3
+  code_git_ref: polkadot-stable2606-1
   debian-versions:
     - bookworm
     - trixie
   rust-versions:
-    - "1.93.0"
+    - "1.93.1"
+  clang-versions:
+    - 21
+  rustc-targets:
+    - x86-64-v3
+  components:
+    - polkadot
+    - substrate-node
+    - polkadot-parachain
+    - polkadot-omni-node
+stable2603:
+  code_git_repo: paritytech/polkadot-sdk
+  code_git_ref: polkadot-stable2603-5
+  debian-versions:
+    - bookworm
+    - trixie
+  rust-versions:
+    - "1.93.1"
   clang-versions:
     - 21
   rustc-targets:
