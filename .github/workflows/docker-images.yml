@@ -26,6 +26,30 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Read last-release settings from config.yml
+        run: |
+          python3 - <<'PY'
+          import os
+          import sys
+
+          import yaml
+
+          with open("config.yml", "r", encoding="utf-8") as file:
+              config = yaml.safe_load(file) or {}
+
+          build = config.get("last-release")
+          if not isinstance(build, dict):
+              print("::error::config.yml must define the 'last-release' build profile", file=sys.stderr)
+              sys.exit(1)
+
+          code_git_ref = build.get("code_git_ref")
+          if not code_git_ref:
+              print("::error::Build 'last-release' is missing key: code_git_ref", file=sys.stderr)
+              sys.exit(1)
+
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env_file:
+              env_file.write(f"CODE_GIT_REF={code_git_ref}\n")
+          PY
       - name: Set environmental variables
         id: env-vars
         run: |
@@ -87,7 +111,7 @@ jobs:
           build-args: |
             IMAGE_VERSION=image-to-test:latest
             GIT_REPO=paritytech/polkadot-sdk
-            GIT_REF=polkadot-stable2603
+            GIT_REF=${{ env.CODE_GIT_REF }}
           tags: test-build-image
       - name: Push Docker image
         # if: ${{ env.CONTINUE_IMAGE_BUILD == 'true' }}
