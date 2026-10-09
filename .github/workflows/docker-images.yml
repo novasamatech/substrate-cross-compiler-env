@@ -59,9 +59,12 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.ENV_IMAGE_NAME }}
+      # Retried once: external repos (apt.llvm.org, etc.) are intermittently unreachable from GitHub runners
       - name: Build and push Docker image
+        id: build
+        continue-on-error: true
         uses: docker/build-push-action@v7
-        with:
+        with: &build-env-image
           context: dockerfiles
           file: dockerfiles/Dockerfile-env-amd64
           push: false
@@ -72,6 +75,13 @@ jobs:
             RUST_STABLE_VERSION=${{ matrix.rust-versions }}
             CLANG_VERSION=${{ matrix.clang-versions }}
           tags: ${{ env.ENV_FULL_IMAGE_NAME }},image-to-test:latest
+      - name: Wait before retrying Docker image build
+        if: steps.build.outcome == 'failure'
+        run: sleep 120
+      - name: Build and push Docker image (retry)
+        if: steps.build.outcome == 'failure'
+        uses: docker/build-push-action@v7
+        with: *build-env-image
       - name: Switch to default Docker builder
         run: docker buildx use default
       - name: Build node to test Docker image
